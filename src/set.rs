@@ -14,7 +14,15 @@ impl<T> Set<T> where T: PartialEq {
         if !self.elements.contains(&elem) {
             self.elements.push(elem);
         }
+    }
+
+    pub fn remove(&mut self, elem: T) where T: Copy {
+        self.elements.retain(|&x| x != elem);
     } 
+    
+    pub fn len(&self) -> usize {
+        self.elements.len()
+    }
 }
 
 impl<T> fmt::Display for Set<T> where T: fmt::Display + fmt::Debug + PartialEq {
@@ -22,3 +30,13 @@ impl<T> fmt::Display for Set<T> where T: fmt::Display + fmt::Debug + PartialEq {
         write!(f, "{:?}", self.elements)
     }
 }
+
+#[allow(unused_macros)]
+#[macro_export]
+macro_rules! set [
+    ($($e: expr),*) => ({
+        let mut s = set::Set::new();
+        $(s.add($e);)*
+        s
+    })
+];
