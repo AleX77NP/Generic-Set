@@ -1,6 +1,16 @@
 #[macro_use]
 pub mod set;
 
+#[allow(unused_macros)]
+#[macro_export]
+macro_rules! set [
+    ($($e: expr),*) => ({
+        let mut s = set::Set::new();
+        $(s.add($e);)*
+        s
+    })
+];
+
 fn main() {
     let mut s = set::Set::<f32>::new(); // float set
 
@@ -31,3 +41,13 @@ fn main() {
     println!("{}", s3);
 
 }
+
+#[test]
+fn set_macro() {
+    let mut s = set![1,2,3];
+    s.add(7);
+    s.add(7);
+
+    assert_eq!(4, s.len());
+}
+
